@@ -2,7 +2,7 @@ require('dotenv').config();
 const {User} = require("../models/models");
 const ApiError = require("../error/ApiError");
 const jwt = require("jsonwebtoken");
-const brypt = require("brypt");
+const bcrypt = require("bcrypt");
  
 
 const generateJwt = (id, email, role) => {
@@ -22,7 +22,7 @@ function UserController() {
             return next(ApiError.badRequest("User is not found"));
         }
 
-        const bComparePasswords = brypt.compareSync(sPassword, oUser.password);
+        const bComparePasswords = bcrypt.compareSync(sPassword, oUser.password);
 
         if (!bComparePasswords) {
             return next(ApiError.internalError("Wrong password specified"));
